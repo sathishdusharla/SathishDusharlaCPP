@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { ContentProvider } from './context/ContentContext';
@@ -10,8 +10,11 @@ import Compiler from './components/Compiler';
 import Contact from './components/Contact';
 import Intro from './components/Intro.tsx';
 import NoContests from './components/NoContests';
+import { Menu } from 'lucide-react';
 
 function App() {
+  const [isTopicsListVisible, setIsTopicsListVisible] = useState(false);
+
   return (
     <ThemeProvider>
       <ContentProvider>
@@ -24,8 +27,17 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/home" element={
                   <div className="flex flex-col items-center justify-center space-y-4">
+                    <div className="w-full flex justify-start md:hidden mb-4">
+                      <button
+                        onClick={() => setIsTopicsListVisible(!isTopicsListVisible)}
+                      >
+                        <Menu className="h-6 w-6" />
+                      </button>
+                    </div>
                     <div className="w-full flex flex-col md:flex-row gap-8 mt-8">
-                      <TopicsList />
+                      <div className={`md:block ${isTopicsListVisible ? 'block' : 'hidden'}`}>
+                        <TopicsList />
+                      </div>
                       <TopicContent />
                     </div>
                   </div>
