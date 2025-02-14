@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Editor from '@monaco-editor/react';
 
@@ -12,15 +12,30 @@ const languages = [
   { label: 'Go', value: 'go' },
   { label: 'Rust', value: 'rust' },
   { label: 'Swift', value: 'swift' },
-  { label: 'Kotlin', value: 'kotlin' },
 ];
 
+const defaultCodeSnippets: { [key: string]: string } = {
+  cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, World!";\n    return 0;\n}',
+  python: 'print("Hello, World!")',
+  javascript: 'console.log("Hello, World!");',
+  java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+  c: '#include <stdio.h>\n\nint main() {\n    printf("Hello, World!");\n    return 0;\n}',
+  ruby: 'puts "Hello, World!"',
+  go: 'package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello, World!")\n}',
+  rust: 'fn main() {\n    println!("Hello, World!");\n}',
+  swift: 'print("Hello, World!")',
+};
+
 const Compiler: React.FC = () => {
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>(defaultCodeSnippets['cpp']);
   const [output, setOutput] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>('cpp');
+
+  useEffect(() => {
+    setCode(defaultCodeSnippets[language]);
+  }, [language]);
 
   const handleRunCode = async () => {
     setIsLoading(true);
