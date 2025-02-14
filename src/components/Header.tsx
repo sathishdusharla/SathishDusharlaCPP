@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sun, Moon, Code2, Home, Mail, Trophy, Menu, X } from "lucide-react";
+import { Sun, Moon, Code2, Home, Mail, Trophy, Menu, X, BookOpen } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 
@@ -27,9 +27,13 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
-          <Link to="/home" className="flex items-center space-x-1 hover:text-primary">
+          <Link to="/intro" className="flex items-center space-x-1 hover:text-primary">
             <Home className="h-5 w-5" />
             <span>Home</span>
+          </Link>
+          <Link to="/courses" className="flex items-center space-x-1 hover:text-primary">
+            <BookOpen className="h-5 w-5" />
+            <span>Courses</span>
           </Link>
           <Link to="/compiler" className="flex items-center space-x-1 hover:text-primary">
             <Code2 className="h-5 w-5" />
@@ -54,9 +58,15 @@ export function Header() {
         <div className="md:hidden w-full bg-background shadow-lg absolute top-16 left-0 z-40 transition-all">
           <ul className="flex flex-col items-center space-y-4 py-4">
             <li>
-              <Link to="/home" className="flex items-center space-x-1 hover:text-primary" onClick={toggleMenu}>
+              <Link to="/intro" className="flex items-center space-x-1 hover:text-primary" onClick={toggleMenu}>
                 <Home className="h-5 w-5" />
                 <span>Home</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/courses" className="flex items-center space-x-1 hover:text-primary" onClick={toggleMenu}>
+                <BookOpen className="h-5 w-5" />
+                <span>Courses</span>
               </Link>
             </li>
             <li>
