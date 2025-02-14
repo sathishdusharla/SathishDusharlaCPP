@@ -11,6 +11,8 @@ import Contact from "./components/Contact";
 import Intro from "./components/Intro.tsx";
 import NoContests from "./components/NoContests";
 import { Menu, X } from "lucide-react";
+import { CoursesPage } from "./components/CoursesPage"; // Import the CoursesPage
+import { CppCoursePage } from "./pages/CppCoursePage"; // Import the CppCoursePage
 
 function App() {
   const [isTopicsListVisible, setIsTopicsListVisible] = useState(false);
@@ -25,6 +27,8 @@ function App() {
               <Routes>
                 <Route path="/compiler" element={<Compiler />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/courses" element={<CoursesPage />} /> {/* Add the new CoursesPage route */}
+                <Route path="/courses/cpp" element={<CppCoursePage />} /> {/* Add the new CppCoursePage route */}
                 <Route
                   path="/home"
                   element={
