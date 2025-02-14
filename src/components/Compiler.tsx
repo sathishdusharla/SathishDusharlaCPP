@@ -2,13 +2,25 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Editor from '@monaco-editor/react';
 
+const languages = [
+  { label: 'C++', value: 'cpp' },
+  { label: 'Python', value: 'python' },
+  { label: 'JavaScript', value: 'javascript' },
+  { label: 'Java', value: 'java' },
+  { label: 'C', value: 'c' },
+  { label: 'Ruby', value: 'ruby' },
+  { label: 'Go', value: 'go' },
+  { label: 'Rust', value: 'rust' },
+  { label: 'Swift', value: 'swift' },
+  { label: 'Kotlin', value: 'kotlin' },
+];
+
 const Compiler: React.FC = () => {
-  const [code, setCode] = useState<string>(
-    '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Welcome to SD\'s C++!";\n    return 0;\n}'
-  );
+  const [code, setCode] = useState<string>('');
   const [output, setOutput] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [language, setLanguage] = useState<string>('cpp');
 
   const handleRunCode = async () => {
     setIsLoading(true);
@@ -19,11 +31,11 @@ const Compiler: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          language: 'cpp',
-          version: '10.2.0', // Specify an older version of the compiler
+          language: language,
+          version: '*', // Use the latest version available
           files: [
             {
-              name: 'main.cpp',
+              name: `main.${language}`,
               content: code,
             },
           ],
@@ -60,11 +72,24 @@ const Compiler: React.FC = () => {
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full">
         <div className="bg-card rounded-lg shadow-md p-4">
-          <h2 className="text-xl font-semibold text-foreground mb-4">Code Editor</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold text-foreground">Code Editor</h2>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="px-4 py-2 bg-background text-foreground rounded-md"
+            >
+              {languages.map((lang) => (
+                <option key={lang.value} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="h-[calc(100%-5rem)]">
             <Editor
               height="100%"
-              defaultLanguage="cpp"
+              defaultLanguage={language}
               theme="vs-dark"
               value={code}
               onChange={(value) => setCode(value || '')}
